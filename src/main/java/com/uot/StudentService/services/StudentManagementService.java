@@ -28,6 +28,16 @@ public class StudentManagementService {
         return null;
     }
 
+    public String updateStudent(Student student){
+        final Student oldStudent = getStudent(student.getId());
+        if(oldStudent != null){
+            deleteStudent(student.getId());
+            enrollStudent(student);
+            return "Successfully updated Student profile";
+        }
+        return "Student haven't been enrolled";
+    }
+
     public boolean deleteStudent(String id){
         if(students.contains(getStudent(id))){
             students.remove(getStudent(id));

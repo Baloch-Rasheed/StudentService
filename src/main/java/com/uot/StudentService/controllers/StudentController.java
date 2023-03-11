@@ -20,16 +20,13 @@ public class StudentController {
 
     // Student Service
     @GetMapping("/")
-    public String students(){
+    public List<Student> students(){
         if(authService.isUserLoggedIn()){
-            if(service.getStudents().isEmpty()){
-                return "No Student Enrolled";
-            }
-            return service.getStudents().toString();
+            return service.getStudents();
         }
-        return "You haven't logged in";
+        return null;
     }
-    @PostMapping("/student/add")
+    @PostMapping("/student")
     public String addStudent(@RequestBody Student student){
         if(authService.isUserLoggedIn()){
             service.enrollStudent(student);
@@ -38,13 +35,22 @@ public class StudentController {
         return "User isn't logged in!!! please login";
     }
     @GetMapping("/student/{id}")
-    public String getStudent(@PathVariable String id){
+    public Student getStudent(@PathVariable String id){
         if(authService.isUserLoggedIn() && id.length() > 6){
-            return service.getStudent(id).toString();
+            return service.getStudent(id);
         }
-        return "Could not found the user with id:" + id;
+        return null;
     }
-    @GetMapping("/student/delete/{id}")
+
+    @PutMapping("/student/{id}")
+    public String updateStudent(@PathVariable("id") int id, @RequestBody Student student){
+        if(authService.isUserLoggedIn()){
+            return service.updateStudent(student);
+        }
+        return "Sorry no User have logged in";
+    }
+
+    @DeleteMapping("/student/{id}")
     public String deleteStudent(@PathVariable String id){
         if(authService.isUserLoggedIn() && id.length() > 6){
             service.deleteStudent(id);
