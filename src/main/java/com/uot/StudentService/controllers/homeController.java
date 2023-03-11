@@ -1,5 +1,6 @@
 package com.uot.StudentService.controllers;
 
+import com.uot.StudentService.models.User;
 import com.uot.StudentService.services.AuthService;
 import jakarta.websocket.server.PathParam;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class homeController {
     public homeController(AuthService service) {
         this.service = service;
+        dummyUsers();
     }
 
     AuthService service;
@@ -27,12 +29,26 @@ public class homeController {
     @GetMapping("/login")
     public String login(@PathParam(value = "userName") String userName, @PathParam(value = "password") String password){
         if(!service.isUserLoggedIn()){
-            service.login(userName, password);
-            return "Successfully LoggedIn";
+            if(service.login(userName, password) != null){
+                return "Successfully LoggedIn";
+            }
+            return "username or password is wrong";
         }
         return "A user already logged in";
     }
 
+    @GetMapping("/register")
+    public String register(@PathParam(value = "userName") String userName, @PathParam(value = "password") String password){
+        if(!service.isUserLoggedIn()){
+            final User newUser = service.register(userName, password);
+            if(newUser != null){
+                service.login(newUser.getUserName(),newUser.getPassword());
+                return "A new user registered and signed in";
+            }
+            return "username already exists.. to continue please login... or use a new username";
+        }
+        return "A user already logged in";
+    }
     @GetMapping("/logout")
     public String logout(){
         if(service.isUserLoggedIn()){
@@ -42,4 +58,8 @@ public class homeController {
         return "user isn't logged in";
     }
 
+    private void dummyUsers(){
+        service.register("Baloch","123456");
+        service.register("Imdad","123456");
+    }
 }
