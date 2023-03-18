@@ -3,12 +3,14 @@ package com.uot.StudentService.controllers;
 import com.uot.StudentService.models.Student;
 import com.uot.StudentService.services.AuthService;
 import com.uot.StudentService.services.StudentManagementService;
+import jakarta.validation.Valid;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping(path = "/api", produces= "application/json")
 public class StudentController {
     public StudentController(AuthService authService,StudentManagementService service) {
         this.service = service;
@@ -27,10 +29,13 @@ public class StudentController {
         return null;
     }
     @PostMapping("/student")
-    public String addStudent(@RequestBody Student student){
+    public String addStudent(@RequestBody @Valid Student student, Errors errors){
         if(authService.isUserLoggedIn()){
-            service.enrollStudent(student);
-            return "successfully enrolled student";
+            if(!errors.hasErrors()){
+                service.enrollStudent(student);
+                return "successfully enrolled student";
+            }
+            return errors.getObjectName();
         }
         return "User isn't logged in!!! please login";
     }
@@ -65,16 +70,16 @@ public class StudentController {
         s1.setName("Baloch");
         s1.setDepartment("Computer Science");
         s1.setFatherName("Abdul Rasheed");
-        s1.setSemester("Seventh");
-        s1.setCgpa("3.83");
+        s1.setSemester(7);
+        s1.setCgpa(3.83);
         service.enrollStudent(s1);
         Student s2 = new Student();
         s2.setId("1103853");
         s2.setName("Imdad Rind");
         s2.setDepartment("Computer Science");
         s2.setFatherName("Arif Rind");
-        s2.setSemester("Seventh");
-        s2.setCgpa("3.53");
+        s2.setSemester(7);
+        s2.setCgpa(3.54);
         service.enrollStudent(s2);
     }
 }

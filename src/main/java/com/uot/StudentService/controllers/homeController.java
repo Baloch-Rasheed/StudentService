@@ -3,12 +3,11 @@ package com.uot.StudentService.controllers;
 import com.uot.StudentService.models.User;
 import com.uot.StudentService.services.AuthService;
 import jakarta.websocket.server.PathParam;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping(path = "/api/auth", produces="application/json")
+@SessionAttributes("AuthService")
 public class homeController {
     public homeController(AuthService service) {
         this.service = service;
@@ -27,7 +26,8 @@ public class homeController {
     }
 
     @GetMapping("/login")
-    public String login(@PathParam(value = "userName") String userName, @PathParam(value = "password") String password){
+    public String login(@RequestParam(value = "userName") String userName, @RequestParam(value = "password") String password){
+
         if(!service.isUserLoggedIn()){
             if(service.login(userName, password) != null){
                 return "Successfully LoggedIn";

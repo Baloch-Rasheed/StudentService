@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Details  |Page</title>
+</head>
+<body>
+    <div align="center">
+        <h1>Student Details</h1>
+        <table border="1">
+            <tr><td th:text="${student.name}"></td></tr>
+            <tr><td th:text="${student.id}"></td></tr>
+            <tr><td th:text="${student.fatherName}"></td></tr>
+            <tr><td th:text="${student.semester}"></td></tr>
+            <tr><td th:text="${student.department}"></td></tr>
+            <tr><td th:text="${student.cgpa}"></td></tr>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Students     |page</title>
+</head>
+<body>
+    <div align="center">
+        <h1>Students List</h1>
+        <table border="1">
+            <tr>
+                <th>Student ID</th>
+                <th>Student Name</th>
+                <th>Student Father Name</th>
+                <th>Student Semester</th>
+                <th>Student Department</th>
+                <th>Student CGPA</th>
+            </tr>
+            <tr th:each="s:${students}">
+                <td th:text="${s.id}"></td>
+                <td th:text="${s.name}"></td>
+                <td th:text="${s.fatherName}"></td>
+                <td th:text="${s.semester}"></td>
+                <td th:text="${s.department}"></td>
+                <td th:text="${s.cgpa}"></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
