@@ -8,7 +8,10 @@
     <h1>Student Form</h1>
     <div align="center">
         <form th:object="${student}" method="post" th:action="@{/student}" action="#">
-            <input type="text" th:field="*{id}" placeholder="Enter Student ID"><br>
+
+            <input type="text" th:field="*{id}" placeholder="Enter Student ID" onerror="*{id}"><br>
+<!--            <span th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></span><br>-->
+
             <input type="text" th:field="*{name}" placeholder="Enter Student Name"><br>
             <input type="text" th:field="*{fatherName}" placeholder="Enter Student Father's Name"><br>
             <input type="number" th:field="*{semester}" placeholder="Enter Student Semester"><br>

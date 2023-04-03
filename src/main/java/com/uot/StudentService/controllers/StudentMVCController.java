@@ -42,13 +42,13 @@ public class StudentMVCController {
         return "redirect:/error/auth-error";
     }
     @PostMapping("/student")
-    public String addStudent(@ModelAttribute @Valid Student student, Errors errors){
+    public String addStudent(@Valid @ModelAttribute Student student, Errors errors){
         if(authService.isUserLoggedIn()){
-            if(!errors.hasErrors()){
-                service.enrollStudent(student);
-                return "redirect:/student-list";
+            if(errors.hasErrors()){
+                return "redirect:/student-form";
             }
-            return "redirect:/student-form";
+            service.enrollStudent(student);
+            return "redirect:/student-list";
         }
         return "redirect:/error/auth-error";
     }
