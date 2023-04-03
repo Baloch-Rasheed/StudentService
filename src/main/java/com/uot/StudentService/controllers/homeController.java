@@ -6,7 +6,7 @@ import jakarta.websocket.server.PathParam;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "/api/auth", produces="application/json")
+@RequestMapping(path = "/api/auth", produces= {"application/json", "text/xml"})
 @SessionAttributes("AuthService")
 public class homeController {
     public homeController(AuthService service) {

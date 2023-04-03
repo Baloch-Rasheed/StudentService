@@ -21,6 +21,10 @@ public class StudentMVCController {
     AuthService authService;
 
     // Student Service
+    @GetMapping("/")
+    public String index(){
+        return "index";
+    }
     @GetMapping("/student-list")
     public String students(Model model){
         if(authService.isUserLoggedIn()){
@@ -56,7 +60,6 @@ public class StudentMVCController {
         }
         return "redirect:/error/auth-error";
     }
-
     @PutMapping("/student/{id}")
     public String updateStudent(@PathVariable("id") int id, @ModelAttribute Student student){
         if(authService.isUserLoggedIn()){
@@ -65,7 +68,6 @@ public class StudentMVCController {
         }
         return "redirect:/error/auth-error";
     }
-
     @DeleteMapping("/student/{id}")
     public String deleteStudent(@PathVariable String id){
         if(authService.isUserLoggedIn() && id.length() > 6){
@@ -74,9 +76,12 @@ public class StudentMVCController {
         }
         return "Couldn't deleted the User";
     }
-
     @GetMapping("/error/auth-error")
     public String error(){
         return "authErrorView";
+    }
+    @GetMapping("/error")
+    public String err(){
+        return "error-404";
     }
 }

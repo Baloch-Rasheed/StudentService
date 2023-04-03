@@ -4,13 +4,18 @@ import com.uot.StudentService.models.Student;
 import com.uot.StudentService.services.AuthService;
 import com.uot.StudentService.services.StudentManagementService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "/api", produces= "application/json")
+@RequestMapping(path = "/api", produces={"application/json", "text/xml"})
+@CrossOrigin(origins = "http://uot.org:8080")
 public class StudentController {
     public StudentController(AuthService authService,StudentManagementService service) {
         this.service = service;
@@ -29,6 +34,7 @@ public class StudentController {
         return null;
     }
     @PostMapping("/student")
+    @ResponseStatus(value = HttpStatus.CREATED)
     public String addStudent(@RequestBody @Valid Student student, Errors errors){
         if(authService.isUserLoggedIn()){
             if(!errors.hasErrors()){
@@ -40,11 +46,15 @@ public class StudentController {
         return "User isn't logged in!!! please login";
     }
     @GetMapping("/student/{id}")
-    public Student getStudent(@PathVariable String id){
+    public ResponseEntity<Student> getStudent(@PathVariable String id){
         if(authService.isUserLoggedIn() && id.length() > 6){
-            return service.getStudent(id);
+            Student st = service.getStudent(id);
+            if(st != null){
+                return new ResponseEntity<>(st,HttpStatus.OK);
+            }
+            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
         }
-        return null;
+        return new ResponseEntity<>(null,HttpStatus.UNAUTHORIZED);
     }
 
     @PutMapping("/student/{id}")
