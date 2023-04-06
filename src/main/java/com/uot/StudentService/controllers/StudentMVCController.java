@@ -36,7 +36,7 @@ public class StudentMVCController {
     @GetMapping("/student-form")
     public String studentsForm(Model model){
         if(authService.isUserLoggedIn()){
-            model.addAttribute("student",new Student());
+            model.addAttribute("student",new Student("","","",0,"",0.0));
             return "studentFormView";
         }
         return "redirect:/error/auth-error";

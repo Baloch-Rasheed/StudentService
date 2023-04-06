@@ -48,9 +48,9 @@ public class StudentController {
     @GetMapping("/student/{id}")
     public ResponseEntity<Student> getStudent(@PathVariable String id){
         if(authService.isUserLoggedIn() && id.length() > 6){
-            Student st = service.getStudent(id);
-            if(st != null){
-                return new ResponseEntity<>(st,HttpStatus.OK);
+            Optional<Student> st = service.getStudent(id);
+            if(st.isPresent()){
+                return new ResponseEntity<>(st.get(),HttpStatus.OK);
             }
             return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
         }
@@ -75,21 +75,21 @@ public class StudentController {
     }
 
     void dummyStudent(){
-        Student s1 = new Student();
-        s1.setId("1104260");
-        s1.setName("Baloch");
-        s1.setDepartment("Computer Science");
-        s1.setFatherName("Abdul Rasheed");
-        s1.setSemester(7);
-        s1.setCgpa(3.83);
+        Student s1 = new Student(
+                "1104260",
+                "Baloch",
+                "Abdul Rasheed",
+                7,
+                "Computer Science",
+                3.83
+        );
         service.enrollStudent(s1);
-        Student s2 = new Student();
-        s2.setId("1103853");
-        s2.setName("Imdad Rind");
-        s2.setDepartment("Computer Science");
-        s2.setFatherName("Arif Rind");
-        s2.setSemester(7);
-        s2.setCgpa(3.54);
+        Student s2 = new Student("1103852",
+                "Imdad",
+                "Arif",
+                7,
+                "Computer Science",
+                3.53);
         service.enrollStudent(s2);
     }
 }
