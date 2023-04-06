@@ -1,4 +1,4 @@
-package com.uot.StudentService.controllers;
+package com.uot.StudentService.controllers.api;
 
 import com.uot.StudentService.models.User;
 import com.uot.StudentService.services.AuthService;

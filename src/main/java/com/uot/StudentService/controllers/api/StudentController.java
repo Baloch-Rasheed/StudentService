@@ -1,4 +1,4 @@
-package com.uot.StudentService.controllers;
+package com.uot.StudentService.controllers.api;
 
 import com.uot.StudentService.models.Student;
 import com.uot.StudentService.services.AuthService;
@@ -37,20 +37,17 @@ public class StudentController {
     @ResponseStatus(value = HttpStatus.CREATED)
     public String addStudent(@RequestBody @Valid Student student, Errors errors){
         if(authService.isUserLoggedIn()){
-            if(!errors.hasErrors()){
-                service.enrollStudent(student);
-                return "successfully enrolled student";
-            }
-            return errors.getObjectName();
+            service.enrollStudent(student);
+            return "successfully enrolled student";
         }
         return "User isn't logged in!!! please login";
     }
     @GetMapping("/student/{id}")
     public ResponseEntity<Student> getStudent(@PathVariable String id){
         if(authService.isUserLoggedIn() && id.length() > 6){
-            Optional<Student> st = service.getStudent(id);
-            if(st.isPresent()){
-                return new ResponseEntity<>(st.get(),HttpStatus.OK);
+            Student st = service.getStudent(id);
+            if(st != null){
+                return new ResponseEntity<>(st,HttpStatus.OK);
             }
             return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
         }

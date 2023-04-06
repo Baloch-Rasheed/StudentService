@@ -42,7 +42,7 @@ public class StudentManagementService {
         return students;
     }
 
-    public Optional<Student> getStudent(String id){
+    public Student getStudent(String id){
         List<Student> students = jt.query(
                 "SELECT * FROM student WHERE id=?",
                 new Object[]{id},
@@ -55,12 +55,12 @@ public class StudentManagementService {
                         rs.getDouble("cgpa")
                 )
         );
-        return students.isEmpty()? Optional.empty() :Optional.of(students.get(0));
+        return students.isEmpty()? null : students.get(0);
     }
 
     public String updateStudent(Student student){
-        final Optional<Student> oldStudent = getStudent(student.getId());
-        if(oldStudent.isPresent()){
+        final Student oldStudent = getStudent(student.getId());
+        if(oldStudent != null){
             deleteStudent(student.getId());
             enrollStudent(student);
             return "Successfully updated Student profile";
@@ -69,8 +69,8 @@ public class StudentManagementService {
     }
 
     public boolean deleteStudent(String id){
-        final Optional<Student> oldStudent = getStudent(id);
-        if(oldStudent.isPresent()){
+        final Student oldStudent = getStudent(id);
+        if(oldStudent != null){
             int result = jt.update(
                     "DELETE FROM student WHERE id=?",id
             );
