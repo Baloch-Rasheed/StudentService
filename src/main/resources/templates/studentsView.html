@@ -23,8 +23,18 @@
                 <td th:text="${s.semester}"></td>
                 <td th:text="${s.department}"></td>
                 <td th:text="${s.cgpa}"></td>
+                <td>
+                    <form th:action="@{/student/edit}" th:object="${s}" method="post">
+                        <input type="submit" value="Edit">
+                    </form>
+                </td>
             </tr>
         </table>
+    </div>
+
+    <div>
+        <a href="/student-form">Add Student</a><br>
+        <a href="/">Home</a><br>
     </div>
 </body>
 </html>

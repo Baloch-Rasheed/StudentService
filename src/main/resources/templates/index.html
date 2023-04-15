@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Home Page</title>
@@ -10,6 +10,7 @@
     </div>
     <div>
       <p>This is a Web Application from String Web MVC. This Web Application also support RESTful APIs</p>
+        <h5 th:text="${time}"></h5>
     </div>
     <div>
       <a href="student-list">Student List</a>

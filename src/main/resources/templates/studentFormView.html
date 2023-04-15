@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Student Form   |Page</title>
@@ -7,16 +7,27 @@
 <body>
     <h1>Student Form</h1>
     <div align="center">
-        <form th:object="${student}" method="post" th:action="@{/student}" action="#">
+        <form th:object="${student}" method="post" th:action="@{/student}">
 
-            <input type="text" th:field="*{id}" placeholder="Enter Student ID" onerror="*{id}"><br>
-<!--            <span th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></span><br>-->
+            <input type="text" th:field="*{id}" placeholder="Enter Student ID"><br>
+            <span th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></span><br>
 
             <input type="text" th:field="*{name}" placeholder="Enter Student Name"><br>
+            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span><br>
+
+
             <input type="text" th:field="*{fatherName}" placeholder="Enter Student Father's Name"><br>
+            <span th:if="${#fields.hasErrors('fatherName')}" th:errors="*{fatherName}"></span><br>
+
             <input type="number" th:field="*{semester}" placeholder="Enter Student Semester"><br>
+            <span th:if="${#fields.hasErrors('semester')}" th:errors="*{semester}"></span><br>
+
             <input type="text" th:field="*{department}" placeholder="Enter Student Department"><br>
+            <span th:if="${#fields.hasErrors('department')}" th:errors="*{department}"></span><br>
+
             <input type="number" th:field="*{cgpa}" placeholder="Enter Student CGPA/GPA"><br>
+            <span th:if="${#fields.hasErrors('cgpa')}" th:errors="*{cgpa}"></span><br>
+
             <br><br> <input type="submit" value="Enroll">
         </form>
     </div>

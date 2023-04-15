@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 @Controller
@@ -22,7 +24,10 @@ public class StudentMVCController {
 
     // Student Service
     @GetMapping("/")
-    public String index(){
+    public String index(Model model){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+        Calendar cal = Calendar.getInstance();
+        model.addAttribute("time",dateFormat.format(cal.getTime()));
         return "index";
     }
     @GetMapping("/student-list")
@@ -36,7 +41,7 @@ public class StudentMVCController {
     @GetMapping("/student-form")
     public String studentsForm(Model model){
         if(authService.isUserLoggedIn()){
-            model.addAttribute("student",new Student("","","",0,"",0.0));
+            model.addAttribute("student",new Student());
             return "studentFormView";
         }
         return "redirect:/error/auth-error";
@@ -45,7 +50,7 @@ public class StudentMVCController {
     public String addStudent(@Valid @ModelAttribute Student student, Errors errors){
         if(authService.isUserLoggedIn()){
             if(errors.hasErrors()){
-                return "redirect:/student-form";
+                return "studentFormView";
             }
             service.enrollStudent(student);
             return "redirect:/student-list";
@@ -60,11 +65,15 @@ public class StudentMVCController {
         }
         return "redirect:/error/auth-error";
     }
-    @PutMapping("/student/{id}")
-    public String updateStudent(@PathVariable("id") int id, @ModelAttribute Student student){
+    @PostMapping("/student/edit")
+    public String updateStudent(@ModelAttribute Student student,Model model){
         if(authService.isUserLoggedIn()){
-            service.updateStudent(student);
-            return "redirect:/student/"+id;
+            if(service.getStudent(student.getId()) != null){
+                service.deleteStudent(student.getId());
+                model.addAttribute("student",student);
+                return "studentFormView";
+            }
+            return "error-404";
         }
         return "redirect:/error/auth-error";
     }

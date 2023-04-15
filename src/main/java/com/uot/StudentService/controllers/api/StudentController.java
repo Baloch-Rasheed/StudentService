@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api", produces={"application/json", "text/xml"})
-@CrossOrigin(origins = "http://uot.org:8080")
+@CrossOrigin(origins = "http://global.student-service.org")
 public class StudentController {
     public StudentController(AuthService authService,StudentManagementService service) {
         this.service = service;
